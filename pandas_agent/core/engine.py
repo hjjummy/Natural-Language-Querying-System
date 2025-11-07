@@ -3,10 +3,11 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Optional
 import pandas as pd
-import json
 import time
 import re
 from dataclasses import dataclass
+from datetime import datetime
+import json
 
 from .config import USE_REWRITTEN_FOR_ALL
 from .io import build_md_subset, extract_between_tags, load_excel
@@ -300,6 +301,24 @@ def ask_one_with_retry(
                 a=ans,
                 used=out.get("used_columns", []),
             )
+
+            try:
+                # schema_path는 항상 cache_dir 내부를 가리키므로, 그 부모 폴더가 캐시 폴더임
+                cache_dir = Path(schema_path).parent
+                cache_log_path = cache_dir / "query_log.jsonl"
+
+                record = {
+                    "timestamp": datetime.now().isoformat(),
+                    "question": question,
+                    "rewritten": out.get("rewritten", question),
+                    "generated_code": out.get("code") or "",
+                    "answer": extract_between_tags(out.get("reason_answer", ""), "answer"),
+                }
+
+                with open(cache_log_path, "a", encoding="utf-8") as f:
+                    f.write(json.dumps(record, ensure_ascii=False) + "\n")
+            except Exception as e:
+                print(f"[warn] failed to save query log: {e}")
             return {**out, "retry_info": {"attempts": attempt + 1, "status": "ok"}}
 
         except Exception as e:

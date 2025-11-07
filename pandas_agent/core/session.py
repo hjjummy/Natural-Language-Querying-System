@@ -6,6 +6,7 @@ import hashlib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
+from datetime import datetime
 
 @dataclass
 class Paths:
@@ -44,7 +45,8 @@ class SessionManager:
 
     def _cache_file_names(self, input_path: str, sheet_name: Optional[str]) -> tuple[Path, Path, Path]:
         key = self._make_cache_key(input_path, sheet_name)
-        cache_dir = self.cache_root / key
+        date_str = datetime.now().strftime("%Y%m%d")   # ✅ 날짜 추가
+        cache_dir = self.cache_root / f"{date_str}__{key}"   # ✅ 날짜__해시 형태로 폴더 생성
         cache_dir.mkdir(parents=True, exist_ok=True)
 
         stem = Path(input_path).stem
