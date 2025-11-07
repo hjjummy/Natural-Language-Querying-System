@@ -3,7 +3,7 @@
 이 레포지토리는 자연어 질의로 엑셀·DB 데이터를 분석하고,  
 AI가 자동으로 SQL/Pandas 코드·집계·인사이트를 도출하는 통합 에이전트 시스템입니다.  
 
-본 프로젝트는 **PandasAI Agent**와 **SQL Agent(DuckDB 기반)**를 포함합니다.
+본 프로젝트는 **PandasAI Agent**와 **SQL Agent**를 포함합니다.
 
 ---
 
