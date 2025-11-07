@@ -1,0 +1,225 @@
+{
+  "columns": [
+    {
+      "name": "Unnamed: 0",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 0': 주로 식별자 또는 인덱스 역할을 함.",
+        "[형식] string; 대표 형식 예: 빈 값"
+      ],
+      "summary": {
+        "count": 0,
+        "unique_count": 0,
+        "examples": []
+      }
+    },
+    {
+      "name": "Unnamed: 1",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 1': 질문의 유형이나 카테고리를 나타냄.",
+        "[형식] string; 대표 형식 예: '첫 번째 질문', '예시 1'"
+      ],
+      "summary": {
+        "count": 18,
+        "unique_count": 9,
+        "examples": [
+          "첫 번째 질문",
+          "세 번째 질문",
+          "두 번째 질문",
+          "네 번째 질문",
+          "※ 첫 번째, 두 번째, 세 번재 질문은 서로 연관 있고 네 번째 질문은 연관 없음",
+          "예시 1",
+          "※ 첫 번째, 두 번째 질문은 서로 연관 있고 세번째 질문은 앞의 두 질문과 연관이 없되, 네 번째 질문과는 연관 있음",
+          "예시 2",
+          "예시 3"
+        ]
+      }
+    },
+    {
+      "name": "Unnamed: 2",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 2': 질문의 세부 내용을 포함.",
+        "[형식] string; 대표 형식 예: '그 중 K가 가장 큰 것은?'"
+      ],
+      "summary": {
+        "count": 12,
+        "unique_count": 12,
+        "examples": [
+          "'S 3rd'에 해당하는 E 5개",
+          "그 중 K가 가장 큰 것은?",
+          "Y가 가장 큰 C의 값은?",
+          "그 C의 값에서 W가 가장 유사한 E는?",
+          "'AC25'에 해당하는 E들의 K 평균은?",
+          "그 평균에 제일 근사한 E의 값은?",
+          "위에서 구한 E의 의 K값과 'AB25'에서 대체할 수 있는 E는?",
+          "G의 각 항목 별로의 Sum은?",
+          "T, U, V, W의 합이 가장 큰 상위 5개의 E",
+          "그것들의 A와 E 각각 나열"
+        ]
+      }
+    },
+    {
+      "name": "Unnamed: 3",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 3': 현재 데이터가 없음.",
+        "[형식] string; 대표 형식 예: 빈 값"
+      ],
+      "summary": {
+        "count": 0,
+        "unique_count": 0,
+        "examples": []
+      }
+    },
+    {
+      "name": "Unnamed: 4",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 4': 현재 데이터가 없음.",
+        "[형식] string; 대표 형식 예: 빈 값"
+      ],
+      "summary": {
+        "count": 0,
+        "unique_count": 0,
+        "examples": []
+      }
+    },
+    {
+      "name": "Unnamed: 5",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 5': 현재 데이터가 없음.",
+        "[형식] string; 대표 형식 예: 빈 값"
+      ],
+      "summary": {
+        "count": 0,
+        "unique_count": 0,
+        "examples": []
+      }
+    },
+    {
+      "name": "Unnamed: 6",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 6': 현재 데이터가 없음.",
+        "[형식] string; 대표 형식 예: 빈 값"
+      ],
+      "summary": {
+        "count": 0,
+        "unique_count": 0,
+        "examples": []
+      }
+    },
+    {
+      "name": "Unnamed: 7",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 7': 현재 데이터가 없음.",
+        "[형식] string; 대표 형식 예: 빈 값"
+      ],
+      "summary": {
+        "count": 0,
+        "unique_count": 0,
+        "examples": []
+      }
+    },
+    {
+      "name": "Unnamed: 8",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 8': 현재 데이터가 없음.",
+        "[형식] string; 대표 형식 예: 빈 값"
+      ],
+      "summary": {
+        "count": 0,
+        "unique_count": 0,
+        "examples": []
+      }
+    },
+    {
+      "name": "Unnamed: 9",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 9': 현재 데이터가 없음.",
+        "[형식] string; 대표 형식 예: 빈 값"
+      ],
+      "summary": {
+        "count": 0,
+        "unique_count": 0,
+        "examples": []
+      }
+    },
+    {
+      "name": "Unnamed: 10",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 10': 현재 데이터가 없음.",
+        "[형식] string; 대표 형식 예: 빈 값"
+      ],
+      "summary": {
+        "count": 0,
+        "unique_count": 0,
+        "examples": []
+      }
+    },
+    {
+      "name": "Unnamed: 11",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 11': 현재 데이터가 없음.",
+        "[형식] string; 대표 형식 예: 빈 값"
+      ],
+      "summary": {
+        "count": 0,
+        "unique_count": 0,
+        "examples": []
+      }
+    },
+    {
+      "name": "Unnamed: 12",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 12': 현재 데이터가 없음.",
+        "[형식] string; 대표 형식 예: 빈 값"
+      ],
+      "summary": {
+        "count": 0,
+        "unique_count": 0,
+        "examples": []
+      }
+    },
+    {
+      "name": "Unnamed: 13",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 13': 현재 데이터가 없음.",
+        "[형식] string; 대표 형식 예: 빈 값"
+      ],
+      "summary": {
+        "count": 0,
+        "unique_count": 0,
+        "examples": []
+      }
+    },
+    {
+      "name": "Unnamed: 14",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Unnamed: 14': 질문에 대한 추가 설명이나 조건을 포함.",
+        "[형식] string; 대표 형식 예: '어떤 기준으로 E 5를 뽑아야하는지?'"
+      ],
+      "summary": {
+        "count": 4,
+        "unique_count": 4,
+        "examples": [
+          "어떤 기준으로 E 5를 뽑아야하는지?",
+          "유사 = 차이값으로",
+          "연관된 질문인지는 주어지나?",
+          "멀티턴으로 구현하되, 예시 1에서 1,2와 3,4로 나눠서 각각의 쓰레드에서 질문해야할것같음. 하나의 쓰레드에서 할경우에는 연관된 질문이라는 조건을 함께 쿼리로 주어야할것같음"
+        ]
+      }
+    }
+  ]
+}
