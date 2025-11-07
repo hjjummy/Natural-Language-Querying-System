@@ -1,0 +1,23 @@
+services:
+  cs-inc-app:
+    build: .
+    container_name: cs_inc_app
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      TZ: Asia/Seoul
+    volumes:
+      - ./:/app                   # ✅ 로컬 코드 전체 마운트 (app.py 포함)
+      - ./data:/app/data
+      - ./workspace:/app/workspace
+      - ./logs:/app/logs
+      - ./assets:/app/assets
+    restart: unless-stopped
+    command: >
+      streamlit run app.py
+      --server.port=8501
+      --server.address=0.0.0.0
+      --server.enableCORS=false
+      --server.headless=true

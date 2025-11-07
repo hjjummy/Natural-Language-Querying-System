@@ -1,0 +1,246 @@
+{
+  "columns": [
+    {
+      "name": "PassengerId",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'PassengerId': 각 승객의 고유 식별자 역할을 합니다.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 892.0,
+        "max": 941.0,
+        "mean": 916.5,
+        "std": 14.430869689661812,
+        "examples": [
+          892.0,
+          893.0,
+          894.0,
+          895.0,
+          896.0,
+          897.0,
+          898.0,
+          899.0
+        ]
+      }
+    },
+    {
+      "name": "Pclass",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'Pclass': 승객의 객실 등급을 나타냅니다.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 1.0,
+        "max": 3.0,
+        "mean": 2.28,
+        "std": 0.8726969691708572,
+        "examples": [
+          3.0,
+          2.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "name": "Name",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Name': 승객의 이름을 포함하며, 식별 및 분석에 사용됩니다.",
+        "[형식] string; 대표 형식 예: '성, 호칭. 이름 (추가 정보)'"
+      ],
+      "summary": {
+        "count": 50,
+        "unique_count": 50,
+        "examples": [
+          "Kelly, Mr. James",
+          "Wilkes, Mrs. James (Ellen Needs)",
+          "Myles, Mr. Thomas Francis",
+          "Wirz, Mr. Albert",
+          "Hirvonen, Mrs. Alexander (Helga E Lindqvist)",
+          "Svensson, Mr. Johan Cervin",
+          "Connolly, Miss. Kate",
+          "Caldwell, Mr. Albert Francis",
+          "Abrahim, Mrs. Joseph (Sophie Halaut Easu)",
+          "Davies, Mr. John Samuel"
+        ]
+      }
+    },
+    {
+      "name": "Sex",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Sex': 승객의 성별을 나타내며, 분석 및 필터링에 사용됩니다.",
+        "[형식] string; 대표 형식 예: 'male', 'female'"
+      ],
+      "summary": {
+        "count": 50,
+        "unique_count": 2,
+        "examples": [
+          "male",
+          "female"
+        ]
+      }
+    },
+    {
+      "name": "Age",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'Age': 승객의 나이를 나타내며, 분석 및 통계에 사용됩니다.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 42,
+        "min": 9.0,
+        "max": 63.0,
+        "mean": 33.892857142857146,
+        "std": 13.570159715120436,
+        "examples": [
+          34.5,
+          47.0,
+          62.0,
+          27.0,
+          22.0,
+          14.0,
+          30.0,
+          26.0
+        ]
+      }
+    },
+    {
+      "name": "SibSp",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'SibSp': 승객과 함께 탑승한 형제자매 또는 배우자의 수를 나타냅니다.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 0.0,
+        "max": 2.0,
+        "mean": 0.44,
+        "std": 0.6053098380168623,
+        "examples": [
+          0.0,
+          1.0,
+          2.0
+        ]
+      }
+    },
+    {
+      "name": "Parch",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'Parch': 승객과 함께 탑승한 부모 또는 자녀의 수를 나타냅니다.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 0.0,
+        "max": 3.0,
+        "mean": 0.3,
+        "std": 0.6708203932499369,
+        "examples": [
+          0.0,
+          1.0,
+          3.0,
+          2.0
+        ]
+      }
+    },
+    {
+      "name": "Ticket",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'Ticket': 승객의 티켓 번호를 나타내며, 고유 식별자 역할을 합니다.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 32,
+        "min": 694.0,
+        "max": 3101298.0,
+        "mean": 247574.28125,
+        "std": 533125.281896598,
+        "examples": [
+          330911.0,
+          363272.0,
+          240276.0,
+          315154.0,
+          3101298.0,
+          7538.0,
+          330972.0,
+          248738.0
+        ]
+      }
+    },
+    {
+      "name": "Fare",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'Fare': 승객이 지불한 요금을 나타내며, 분석 및 통계에 사용됩니다.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 3.1708,
+        "max": 262.375,
+        "mean": 28.850504000000004,
+        "std": 39.11670386408834,
+        "examples": [
+          7.8292,
+          7.0,
+          9.6875,
+          8.6625,
+          12.2875,
+          9.225,
+          7.6292,
+          29.0
+        ]
+      }
+    },
+    {
+      "name": "Cabin",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Cabin': 승객의 객실 번호를 나타내며, 분석 및 필터링에 사용됩니다.",
+        "[형식] string; 대표 형식 예: 'B45', 'E31', 'B57 B59 B63 B66'"
+      ],
+      "summary": {
+        "count": 10,
+        "unique_count": 10,
+        "examples": [
+          "B45",
+          "E31",
+          "B57 B59 B63 B66",
+          "B36",
+          "A21",
+          "C78",
+          "D34",
+          "D19",
+          "A9",
+          "D15"
+        ]
+      }
+    },
+    {
+      "name": "Embarked",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'Embarked': 승객이 탑승한 항구를 나타내며, 분석 및 필터링에 사용됩니다.",
+        "[형식] string; 대표 형식 예: 'S', 'C', 'Q'"
+      ],
+      "summary": {
+        "count": 50,
+        "unique_count": 3,
+        "examples": [
+          "S",
+          "C",
+          "Q"
+        ]
+      }
+    }
+  ]
+}

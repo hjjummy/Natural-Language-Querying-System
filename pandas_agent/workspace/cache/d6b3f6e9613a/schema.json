@@ -1,0 +1,317 @@
+{
+  "columns": [
+    {
+      "name": "A",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'A': 필터/동치 비교 및 그룹 추출에 사용.",
+        "[형식] string; 대표 형식 예: 코드형 (예: AC25)"
+      ],
+      "summary": {
+        "count": 50,
+        "unique_count": 1,
+        "examples": [
+          "AC25"
+        ]
+      }
+    },
+    {
+      "name": "C",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'C': 다양한 코드 식별자 저장.",
+        "[형식] string; 대표 형식 예: 코드형 (예: AAA157, AAA155)"
+      ],
+      "summary": {
+        "count": 50,
+        "unique_count": 27,
+        "examples": [
+          "AAA166",
+          "AAA137",
+          "AAA119",
+          "AAA139",
+          "AAA144",
+          "AAA100",
+          "AAA130",
+          "AAA143",
+          "AAA173",
+          "AAA152"
+        ]
+      }
+    },
+    {
+      "name": "E",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'E': 고유 식별자 또는 코드 저장.",
+        "[형식] string; 대표 형식 예: 복합 코드형 (예: CCCCCCC-DD092)"
+      ],
+      "summary": {
+        "count": 50,
+        "unique_count": 50,
+        "examples": [
+          "CCCCCCC-DD092",
+          "CCCCCCC-DD024",
+          "CCCCCCC-DD126",
+          "CCCCCCC-DD039",
+          "CCCCCCC-DD043",
+          "CCCCCCC-DD048",
+          "CCCCCCC-DD069",
+          "CCCCCCC-DD146",
+          "CCCCCCC-DD131",
+          "CCCCCCC-DD187"
+        ]
+      }
+    },
+    {
+      "name": "K",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'K': 비교/정렬/최댓값·최솟값 검색에 사용.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 70.58,
+        "max": 191.03,
+        "mean": 132.379,
+        "std": 38.11010528718072,
+        "examples": [
+          140.37,
+          139.62,
+          160.08,
+          119.53,
+          115.61,
+          70.58,
+          70.84,
+          191.03
+        ]
+      }
+    },
+    {
+      "name": "M",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'M': 등급 또는 카테고리 정보 저장.",
+        "[형식] string; 대표 형식 예: 등급형 (예: U 1st, S 3rd)"
+      ],
+      "summary": {
+        "count": 50,
+        "unique_count": 4,
+        "examples": [
+          "U 1st",
+          "S 3rd",
+          "U 3rd",
+          "S 2nd"
+        ]
+      }
+    },
+    {
+      "name": "P",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'P': 금액 또는 수치 데이터 저장.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 0.0,
+        "max": 375295.1,
+        "mean": 42596.333999999995,
+        "std": 93328.8683614944,
+        "examples": [
+          56688.39,
+          0.0,
+          375295.1,
+          30951.89,
+          30219.1,
+          25186.09,
+          23759.07,
+          5496.08
+        ]
+      }
+    },
+    {
+      "name": "R",
+      "dtype": "string",
+      "definition_2lines": [
+        "[정보] 텍스트 컬럼 'R': 특정 상태 또는 코드 저장.",
+        "[형식] string; 대표 형식 예: 단일 문자형 (예: M, T)"
+      ],
+      "summary": {
+        "count": 27,
+        "unique_count": 4,
+        "examples": [
+          "M",
+          "T",
+          "J",
+          "W"
+        ]
+      }
+    },
+    {
+      "name": "T",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'T': 특정 수치 데이터 저장.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 2.68,
+        "max": 130.05,
+        "mean": 56.48219999999999,
+        "std": 55.68523338516236,
+        "examples": [
+          15.43,
+          2.68,
+          114.42,
+          109.3,
+          111.56,
+          113.47,
+          107.64,
+          106.9
+        ]
+      }
+    },
+    {
+      "name": "U",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'U': 특정 수치 데이터 저장.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 0.9,
+        "max": 110.77,
+        "mean": 66.893852,
+        "std": 51.41580181322952,
+        "examples": [
+          7.5926,
+          107.74,
+          107.36,
+          0.9,
+          105.58,
+          107.98,
+          105.78,
+          106.83
+        ]
+      }
+    },
+    {
+      "name": "V",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'V': 특정 수치 데이터 저장.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 2.35,
+        "max": 106.38,
+        "mean": 62.408896,
+        "std": 50.96105479797277,
+        "examples": [
+          6.0548,
+          106.08,
+          105.83,
+          105.66,
+          105.85,
+          2.35,
+          105.25,
+          106.03
+        ]
+      }
+    },
+    {
+      "name": "W",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'W': 특정 수치 데이터 저장.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 0.4,
+        "max": 102.38,
+        "mean": 59.106491999999996,
+        "std": 49.90400144314217,
+        "examples": [
+          1.7446,
+          101.39,
+          101.8,
+          0.4,
+          101.07,
+          101.11,
+          101.74,
+          100.94
+        ]
+      }
+    },
+    {
+      "name": "X",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'X': 특정 수치 데이터 저장.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 0.0,
+        "max": 100.0,
+        "mean": 52.0,
+        "std": 49.95998398718719,
+        "examples": [
+          0.0,
+          100.0
+        ]
+      }
+    },
+    {
+      "name": "Y",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'Y': 특정 수치 데이터 저장.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 6.46,
+        "max": 146.05,
+        "mean": 64.87224,
+        "std": 60.150593655112,
+        "examples": [
+          30.822,
+          121.22,
+          132.06,
+          122.55,
+          122.07,
+          6.46,
+          130.72,
+          116.41
+        ]
+      }
+    },
+    {
+      "name": "Z",
+      "dtype": "float",
+      "definition_2lines": [
+        "[정보] 수치형 컬럼 'Z': 특정 수치 데이터 저장.",
+        "[형식] float; 값 범위 ≈ [min, max]"
+      ],
+      "summary": {
+        "count": 50,
+        "min": 0.0,
+        "max": 100.0,
+        "mean": 40.001999999999995,
+        "std": 48.988163835767516,
+        "examples": [
+          0.1,
+          0.0,
+          100.0
+        ]
+      }
+    }
+  ]
+}

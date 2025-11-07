@@ -1,0 +1,18 @@
+# === Streamlit 기반 PandasAI 앱 최소 패키지 ===
+
+streamlit==1.50.0
+
+# PandasAI 구버전 호환 스택
+pandas==1.5.3
+numpy==1.24.4
+pandasai==2.3.0
+
+# Excel / Markdown 변환
+openpyxl==3.1.5
+tabulate==0.9.0
+
+# OpenAI / 환경 변수 / 토큰 계산
+openai>=1,<2
+python-dotenv==1.1.1
+tiktoken==0.12.0
+PyYAML==6.0.3
