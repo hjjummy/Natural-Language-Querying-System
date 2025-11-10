@@ -59,7 +59,7 @@ def _current_thread() -> ThreadState:
     return st.session_state.threads[st.session_state.current_tid]
 
 # ================= 페이지 설정 =================
-st.set_page_config(page_title="📊 CHANGSHIN INC (Text-to-SQL)", layout="wide")
+st.set_page_config(page_title="📊 DB Analysis Agent (Text-to-SQL)", layout="wide")
 ensure_dirs()
 
 # --- 스타일(상단 여백 축소 등) ---
@@ -126,7 +126,7 @@ cur = _current_thread()
 st.markdown(
     """
     <div style='text-align:center; margin-top:-60px;'>
-        <h2 style='font-weight:600; margin:0;'>CHANGSHIN INC</h2>
+        <h2 style='font-weight:600; margin:0;'>DB Analysis Agent</h2>
         <h4 style='font-weight:500; margin-top:0.2rem;'>Text-to-SQL 기반 DB 질의 서비스</h4>
     </div>
     """,

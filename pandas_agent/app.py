@@ -145,7 +145,7 @@ def _boot_once_cleanup_sessions():
         st.session_state.booted = True
 
 # ------------------- 페이지 설정 -------------------
-st.set_page_config(page_title="📊 CHANGSHIN INC", layout="wide")
+st.set_page_config(page_title="📊 Excel Analysis Agent", layout="wide")
 ensure_dirs()                 # 1) 작업 폴더 구조 보장
 _boot_once_cleanup_sessions() # 2) 기존 세션 폴더 정리(초기 1회)
 
@@ -300,7 +300,7 @@ st.markdown(
     """
     <div style='text-align: center; margin-top: -60px;'>
         <h2 style='font-weight: 600; margin: 0; color: var(--text-color);'>
-            CHANGSHIN INC
+            Excel Analysis Agent
         </h2>
         <h4 style='font-weight: 500; color: var(--secondary-text-color); margin-top: 0.2rem;'>
             채팅 서비스 | 엑셀 문서를 이해하고 적절한 답변을 제공해드려요
