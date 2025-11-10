@@ -168,20 +168,10 @@ def _has_model_error(reason_answer: str, markdown: str) -> bool:
 # =====================================================================
 LOGS_ROOT = Path("./logs")
 
-def _resolve_log_dir(schema_path: str) -> Path:
-    """
-    cache/<YYYYMMDD>__<hash> 폴더명과 동일한 서브폴더를 logs 아래에 생성함.
-    예: ./logs/20251110__abcd1234/query_log.jsonl
-    """
-    sub = Path(schema_path).parent.name  # ex) 20251110__abcd1234
-    d = LOGS_ROOT / sub
-    d.mkdir(parents=True, exist_ok=True)
-    # 폴더 권한 775 보정(실패해도 무시)
-    try:
-        os.chmod(d, 0o775)
-    except Exception:
-        pass
-    return d
+def _resolve_log_file() -> Path:
+    LOGS_ROOT.mkdir(parents=True, exist_ok=True)
+    return LOGS_ROOT / "query_log.jsonl"
+
 
 # =====================================================================
 # 코어 실행(한 번)
@@ -287,28 +277,22 @@ def ask_one_with_retry(
     q_seed = question
 
     # ✅ logs/<YYYYMMDD__hash> 결정 (캐시가 아니라 logs로 고정)
-    logs_dir: Path = _resolve_log_dir(schema_path)
+    log_file: Path = _resolve_log_file()
 
     # 내부 로거: logs/query_log.jsonl에 질문 이력 남기기
-    def _log_to_logs(logs_dir: Path, status: str, *, q: str, rewritten: str, code: str, answer: str):
+    def _log_to_logs(status: str, *, q: str, rewritten: str, code: str, answer: str):
         try:
-            log_path = logs_dir / "query_log.jsonl"
             rec = {
                 "timestamp": datetime.now().isoformat(),
-                "status": status,  # "ok" | "empty_final" | "error_final_text" | "error_final"
+                "status": status,
                 "question": q,
                 "rewritten": rewritten,
                 "generated_code": code or "",
                 "answer": answer,
             }
-            log_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(log_path, "a", encoding="utf-8") as f:
+            log_file.parent.mkdir(parents=True, exist_ok=True)
+            with open(log_file, "a", encoding="utf-8") as f:
                 f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-            # 파일 권한 664 보정(실패해도 무시)
-            try:
-                os.chmod(log_path, 0o664)
-            except Exception:
-                pass
         except Exception as e:
             print(f"[warn] failed to save query log: {e}")
 
@@ -332,7 +316,7 @@ def ask_one_with_retry(
                 attempt += 1
                 if attempt > retry.max_retries:
                     _log_to_logs(
-                        logs_dir, "error_final_text",
+                        "error_final_text",
                         q=question,
                         rewritten=out.get("rewritten", question),
                         code=out.get("code") or "",
@@ -347,7 +331,7 @@ def ask_one_with_retry(
                 attempt += 1
                 if attempt > retry.max_retries:
                     _log_to_logs(
-                        logs_dir, "empty_final",
+                        "empty_final",
                         q=question,
                         rewritten=out.get("rewritten", question),
                         code=out.get("code") or "",
@@ -365,7 +349,7 @@ def ask_one_with_retry(
                 used=out.get("used_columns", []),
             )
             _log_to_logs(
-                logs_dir, "ok",
+                "ok",
                 q=question,
                 rewritten=out.get("rewritten", question),
                 code=out.get("code") or "",
@@ -380,7 +364,7 @@ def ask_one_with_retry(
             attempt += 1
             if attempt > retry.max_retries:
                 _log_to_logs(
-                    logs_dir, "error_final",
+                    "error_final",
                     q=question,
                     rewritten=question,
                     code="",
