@@ -1,4 +1,3 @@
-# core/engine.py
 from __future__ import annotations
 from pathlib import Path
 from typing import Optional
@@ -261,10 +260,39 @@ def ask_one_with_retry(
     use_rewritten_for_all: bool = USE_REWRITTEN_FOR_ALL,
     head_rows: int | None = None,
     retry: RetryOptions = RetryOptions(),
+    # ✅ 추가: 캐시 경로를 상위에서 명시 전달
+    cache_dir_override: Optional[str] = None,
 ):
     last_error = None
     attempt = 0
     q_seed = question
+
+    # ✅ 캐시 폴더 경로 결정: override > (최후) schema_path.parent
+    def _resolve_cache_dir() -> Path:
+        if cache_dir_override:
+            return Path(cache_dir_override)
+        # 주의: schema_path는 세션일 수 있으니, override 미전달 시엔 세션에 떨어질 수 있음
+        return Path(schema_path).parent
+
+    cache_dir = _resolve_cache_dir()  # cache/YYYYMMDD__<hash> 기대
+
+    # 내부 로거: 캐시(query_log.jsonl)에 질문 이력 남기기
+    def _log_to_cache(cache_dir: Path, status: str, *, q: str, rewritten: str, code: str, answer: str):
+        try:
+            cache_log_path = cache_dir / "query_log.jsonl"
+            rec = {
+                "timestamp": datetime.now().isoformat(),
+                "status": status,  # "ok" | "empty_final" | "error_final_text" | "error_final"
+                "question": q,
+                "rewritten": rewritten,
+                "generated_code": code or "",
+                "answer": answer,
+            }
+            cache_log_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(cache_log_path, "a", encoding="utf-8") as f:
+                f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        except Exception as e:
+            print(f"[warn] failed to save query log: {e}")
 
     while attempt <= retry.max_retries:
         try:
@@ -281,44 +309,50 @@ def ask_one_with_retry(
                 head_rows=head_rows,
             )
 
+            # 모델 오류 재시도/최종
             if retry.retry_on_error and _has_model_error(out.get("reason_answer", ""), out.get("markdown", "")):
                 attempt += 1
                 if attempt > retry.max_retries:
+                    _log_to_cache(
+                        cache_dir, "error_final_text",
+                        q=question,
+                        rewritten=out.get("rewritten", question),
+                        code=out.get("code") or "",
+                        answer="(error)",
+                    )
                     return {**out, "retry_info": {"attempts": attempt, "status": "error_final_text"}}
                 time.sleep(retry.backoff_sec * (2 ** (attempt - 1)))
                 continue
 
+            # 빈 결과 재시도/최종
             if retry.retry_on_empty and _is_empty_markdown(out.get("markdown", "")):
                 attempt += 1
                 if attempt > retry.max_retries:
+                    _log_to_cache(
+                        cache_dir, "empty_final",
+                        q=question,
+                        rewritten=out.get("rewritten", question),
+                        code=out.get("code") or "",
+                        answer="(empty)",
+                    )
                     return {**out, "retry_info": {"attempts": attempt, "status": "empty_final"}}
                 time.sleep(retry.backoff_sec * (2 ** (attempt - 1)))
                 continue
 
+            # ✅ 성공 경로: 히스토리 기록 + 로그
             ans = extract_between_tags(out.get("reason_answer", ""), "answer")
             history.add(
                 q=f"(orig) {question} || (rewritten) {out.get('rewritten', question)}",
                 a=ans,
                 used=out.get("used_columns", []),
             )
-
-            try:
-                # schema_path는 항상 cache_dir 내부를 가리키므로, 그 부모 폴더가 캐시 폴더임
-                cache_dir = Path(schema_path).parent
-                cache_log_path = cache_dir / "query_log.jsonl"
-
-                record = {
-                    "timestamp": datetime.now().isoformat(),
-                    "question": question,
-                    "rewritten": out.get("rewritten", question),
-                    "generated_code": out.get("code") or "",
-                    "answer": extract_between_tags(out.get("reason_answer", ""), "answer"),
-                }
-
-                with open(cache_log_path, "a", encoding="utf-8") as f:
-                    f.write(json.dumps(record, ensure_ascii=False) + "\n")
-            except Exception as e:
-                print(f"[warn] failed to save query log: {e}")
+            _log_to_cache(
+                cache_dir, "ok",
+                q=question,
+                rewritten=out.get("rewritten", question),
+                code=out.get("code") or "",
+                answer=ans,
+            )
             return {**out, "retry_info": {"attempts": attempt + 1, "status": "ok"}}
 
         except Exception as e:
@@ -327,6 +361,13 @@ def ask_one_with_retry(
                 raise
             attempt += 1
             if attempt > retry.max_retries:
+                _log_to_cache(
+                    cache_dir, "error_final",
+                    q=question,
+                    rewritten=question,
+                    code="",
+                    answer="(error)",
+                )
                 return {
                     "is_related": False,
                     "rewritten": question,

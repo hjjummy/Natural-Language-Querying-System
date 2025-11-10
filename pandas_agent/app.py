@@ -453,17 +453,20 @@ with col_right:
 
             # 실제 호출
             out = ask_one_with_retry(
-                df_raw=cur.df_raw,
-                question=question.strip(),
-                schema_path=schema_path,
-                md_path=md_path,
-                model_for_col_select=MODEL_FOR_COL_SELECT,
-                pandasai_llm_model=PANDASAI_LLM_MODEL,
-                history=cur.history,
-                use_rewritten_for_all=USE_REWRITTEN_FOR_ALL,
-                head_rows=None,
-                retry=retry_opts,
-            )
+            df_raw=cur.df_raw,
+            question=question.strip(),
+            schema_path=schema_path,
+            md_path=md_path,
+            model_for_col_select=MODEL_FOR_COL_SELECT,
+            pandasai_llm_model=PANDASAI_LLM_MODEL,
+            history=cur.history,
+            use_rewritten_for_all=USE_REWRITTEN_FOR_ALL,
+            head_rows=None,
+            retry=retry_opts,
+            # ✅ 추가: 캐시 경로를 명시적으로 전달 → 항상 cache/YYYYMMDD__해시/query_log.jsonl에 기록됨
+            cache_dir_override=str(cur.paths.cache_dir),
+        )
+
 
             tick(0.75, "🧮 Pandas 코드 실행 / 결과 정리...", 0.05)
             # 이후 요약/렌더링은 기존 로직 그대로 실행됨

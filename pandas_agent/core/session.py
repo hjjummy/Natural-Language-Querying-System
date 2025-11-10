@@ -1,4 +1,3 @@
-# core/session.py
 from __future__ import annotations
 import os
 import shutil
@@ -98,7 +97,6 @@ class SessionManager:
 
         # 사후 검증
         assert dst.exists() and dst.stat().st_size > 0, f"copy failed: {dst}"
-
 
     def remove_session(self, thread_id: str):
         """특정 스레드 세션 전체 삭제"""

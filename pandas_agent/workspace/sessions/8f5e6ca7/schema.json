@@ -4,8 +4,8 @@
       "name": "PassengerId",
       "dtype": "float",
       "definition_2lines": [
-        "[정보] 수치형 컬럼 'PassengerId': 각 승객의 고유 식별자 역할을 합니다.",
-        "[형식] float; 값 범위 ≈ [min, max]"
+        "[정보] 수치형 컬럼 'PassengerId': 각 승객의 고유 식별자 역할을 함.",
+        "[형식] float; 값 범위 ≈ [892.0, 941.0]"
       ],
       "summary": {
         "count": 50,
@@ -29,8 +29,8 @@
       "name": "Pclass",
       "dtype": "float",
       "definition_2lines": [
-        "[정보] 수치형 컬럼 'Pclass': 승객의 객실 등급을 나타냅니다.",
-        "[형식] float; 값 범위 ≈ [min, max]"
+        "[정보] 수치형 컬럼 'Pclass': 승객의 객실 등급을 나타냄.",
+        "[형식] float; 값 범위 ≈ [1.0, 3.0]"
       ],
       "summary": {
         "count": 50,
@@ -49,7 +49,7 @@
       "name": "Name",
       "dtype": "string",
       "definition_2lines": [
-        "[정보] 텍스트 컬럼 'Name': 승객의 이름을 포함하며, 식별 및 분석에 사용됩니다.",
+        "[정보] 텍스트 컬럼 'Name': 승객의 이름을 포함하며, 식별 및 분석에 사용.",
         "[형식] string; 대표 형식 예: '성, 호칭. 이름 (추가 정보)'"
       ],
       "summary": {
@@ -73,7 +73,7 @@
       "name": "Sex",
       "dtype": "string",
       "definition_2lines": [
-        "[정보] 텍스트 컬럼 'Sex': 승객의 성별을 나타내며, 분석 및 필터링에 사용됩니다.",
+        "[정보] 텍스트 컬럼 'Sex': 승객의 성별을 나타내며, 분석 및 필터링에 사용.",
         "[형식] string; 대표 형식 예: 'male', 'female'"
       ],
       "summary": {
@@ -89,8 +89,8 @@
       "name": "Age",
       "dtype": "float",
       "definition_2lines": [
-        "[정보] 수치형 컬럼 'Age': 승객의 나이를 나타내며, 분석 및 통계에 사용됩니다.",
-        "[형식] float; 값 범위 ≈ [min, max]"
+        "[정보] 수치형 컬럼 'Age': 승객의 나이를 나타내며, 분석 및 통계에 사용.",
+        "[형식] float; 값 범위 ≈ [9.0, 63.0]"
       ],
       "summary": {
         "count": 42,
@@ -114,8 +114,8 @@
       "name": "SibSp",
       "dtype": "float",
       "definition_2lines": [
-        "[정보] 수치형 컬럼 'SibSp': 승객과 함께 탑승한 형제자매 또는 배우자의 수를 나타냅니다.",
-        "[형식] float; 값 범위 ≈ [min, max]"
+        "[정보] 수치형 컬럼 'SibSp': 승객과 동반한 형제자매 또는 배우자의 수를 나타냄.",
+        "[형식] float; 값 범위 ≈ [0.0, 2.0]"
       ],
       "summary": {
         "count": 50,
@@ -134,8 +134,8 @@
       "name": "Parch",
       "dtype": "float",
       "definition_2lines": [
-        "[정보] 수치형 컬럼 'Parch': 승객과 함께 탑승한 부모 또는 자녀의 수를 나타냅니다.",
-        "[형식] float; 값 범위 ≈ [min, max]"
+        "[정보] 수치형 컬럼 'Parch': 승객과 동반한 부모 또는 자녀의 수를 나타냄.",
+        "[형식] float; 값 범위 ≈ [0.0, 3.0]"
       ],
       "summary": {
         "count": 50,
@@ -155,8 +155,8 @@
       "name": "Ticket",
       "dtype": "float",
       "definition_2lines": [
-        "[정보] 수치형 컬럼 'Ticket': 승객의 티켓 번호를 나타내며, 고유 식별자 역할을 합니다.",
-        "[형식] float; 값 범위 ≈ [min, max]"
+        "[정보] 수치형 컬럼 'Ticket': 승객의 티켓 번호를 나타내며, 고유 식별에 사용.",
+        "[형식] float; 값 범위 ≈ [694.0, 3101298.0]"
       ],
       "summary": {
         "count": 32,
@@ -180,8 +180,8 @@
       "name": "Fare",
       "dtype": "float",
       "definition_2lines": [
-        "[정보] 수치형 컬럼 'Fare': 승객이 지불한 요금을 나타내며, 분석 및 통계에 사용됩니다.",
-        "[형식] float; 값 범위 ≈ [min, max]"
+        "[정보] 수치형 컬럼 'Fare': 승객이 지불한 요금을 나타내며, 분석 및 통계에 사용.",
+        "[형식] float; 값 범위 ≈ [3.1708, 262.375]"
       ],
       "summary": {
         "count": 50,
@@ -205,7 +205,7 @@
       "name": "Cabin",
       "dtype": "string",
       "definition_2lines": [
-        "[정보] 텍스트 컬럼 'Cabin': 승객의 객실 번호를 나타내며, 분석 및 필터링에 사용됩니다.",
+        "[정보] 텍스트 컬럼 'Cabin': 승객의 객실 번호를 나타내며, 고유 식별 및 분석에 사용.",
         "[형식] string; 대표 형식 예: 'B45', 'E31', 'B57 B59 B63 B66'"
       ],
       "summary": {
@@ -229,7 +229,7 @@
       "name": "Embarked",
       "dtype": "string",
       "definition_2lines": [
-        "[정보] 텍스트 컬럼 'Embarked': 승객이 탑승한 항구를 나타내며, 분석 및 필터링에 사용됩니다.",
+        "[정보] 텍스트 컬럼 'Embarked': 승객이 탑승한 항구를 나타내며, 분석 및 필터링에 사용.",
         "[형식] string; 대표 형식 예: 'S', 'C', 'Q'"
       ],
       "summary": {
