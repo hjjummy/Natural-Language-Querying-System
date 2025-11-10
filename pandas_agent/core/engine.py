@@ -1,3 +1,4 @@
+# core/engine.py
 from __future__ import annotations
 from pathlib import Path
 from typing import Optional
@@ -7,6 +8,7 @@ import re
 from dataclasses import dataclass
 from datetime import datetime
 import json
+import os  # ✅ 추가: 권한 보정 등에 사용
 
 from .config import USE_REWRITTEN_FOR_ALL
 from .io import build_md_subset, extract_between_tags, load_excel
@@ -90,7 +92,6 @@ def prepare_with_session(
         raw = call_openai_llm(prompt, model=model_for_col_select)
         cleaned = extract_json(raw)
         try:
-            import json
             schema = json.loads(cleaned)
             paths.cache_schema_path.write_text(json.dumps(schema, ensure_ascii=False, indent=2), encoding="utf-8")
         except Exception:
@@ -161,6 +162,26 @@ def _has_model_error(reason_answer: str, markdown: str) -> bool:
     if markdown and not _looks_like_md_table(markdown):
         return True
     return False
+
+# =====================================================================
+# 로그 저장 디렉터리 해석 (logs 아래로 고정)
+# =====================================================================
+LOGS_ROOT = Path("./logs")
+
+def _resolve_log_dir(schema_path: str) -> Path:
+    """
+    cache/<YYYYMMDD>__<hash> 폴더명과 동일한 서브폴더를 logs 아래에 생성함.
+    예: ./logs/20251110__abcd1234/query_log.jsonl
+    """
+    sub = Path(schema_path).parent.name  # ex) 20251110__abcd1234
+    d = LOGS_ROOT / sub
+    d.mkdir(parents=True, exist_ok=True)
+    # 폴더 권한 775 보정(실패해도 무시)
+    try:
+        os.chmod(d, 0o775)
+    except Exception:
+        pass
+    return d
 
 # =====================================================================
 # 코어 실행(한 번)
@@ -260,26 +281,18 @@ def ask_one_with_retry(
     use_rewritten_for_all: bool = USE_REWRITTEN_FOR_ALL,
     head_rows: int | None = None,
     retry: RetryOptions = RetryOptions(),
-    # ✅ 추가: 캐시 경로를 상위에서 명시 전달
-    cache_dir_override: Optional[str] = None,
 ):
     last_error = None
     attempt = 0
     q_seed = question
 
-    # ✅ 캐시 폴더 경로 결정: override > (최후) schema_path.parent
-    def _resolve_cache_dir() -> Path:
-        if cache_dir_override:
-            return Path(cache_dir_override)
-        # 주의: schema_path는 세션일 수 있으니, override 미전달 시엔 세션에 떨어질 수 있음
-        return Path(schema_path).parent
+    # ✅ logs/<YYYYMMDD__hash> 결정 (캐시가 아니라 logs로 고정)
+    logs_dir: Path = _resolve_log_dir(schema_path)
 
-    cache_dir = _resolve_cache_dir()  # cache/YYYYMMDD__<hash> 기대
-
-    # 내부 로거: 캐시(query_log.jsonl)에 질문 이력 남기기
-    def _log_to_cache(cache_dir: Path, status: str, *, q: str, rewritten: str, code: str, answer: str):
+    # 내부 로거: logs/query_log.jsonl에 질문 이력 남기기
+    def _log_to_logs(logs_dir: Path, status: str, *, q: str, rewritten: str, code: str, answer: str):
         try:
-            cache_log_path = cache_dir / "query_log.jsonl"
+            log_path = logs_dir / "query_log.jsonl"
             rec = {
                 "timestamp": datetime.now().isoformat(),
                 "status": status,  # "ok" | "empty_final" | "error_final_text" | "error_final"
@@ -288,9 +301,14 @@ def ask_one_with_retry(
                 "generated_code": code or "",
                 "answer": answer,
             }
-            cache_log_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(cache_log_path, "a", encoding="utf-8") as f:
+            log_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(log_path, "a", encoding="utf-8") as f:
                 f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+            # 파일 권한 664 보정(실패해도 무시)
+            try:
+                os.chmod(log_path, 0o664)
+            except Exception:
+                pass
         except Exception as e:
             print(f"[warn] failed to save query log: {e}")
 
@@ -313,8 +331,8 @@ def ask_one_with_retry(
             if retry.retry_on_error and _has_model_error(out.get("reason_answer", ""), out.get("markdown", "")):
                 attempt += 1
                 if attempt > retry.max_retries:
-                    _log_to_cache(
-                        cache_dir, "error_final_text",
+                    _log_to_logs(
+                        logs_dir, "error_final_text",
                         q=question,
                         rewritten=out.get("rewritten", question),
                         code=out.get("code") or "",
@@ -328,8 +346,8 @@ def ask_one_with_retry(
             if retry.retry_on_empty and _is_empty_markdown(out.get("markdown", "")):
                 attempt += 1
                 if attempt > retry.max_retries:
-                    _log_to_cache(
-                        cache_dir, "empty_final",
+                    _log_to_logs(
+                        logs_dir, "empty_final",
                         q=question,
                         rewritten=out.get("rewritten", question),
                         code=out.get("code") or "",
@@ -346,8 +364,8 @@ def ask_one_with_retry(
                 a=ans,
                 used=out.get("used_columns", []),
             )
-            _log_to_cache(
-                cache_dir, "ok",
+            _log_to_logs(
+                logs_dir, "ok",
                 q=question,
                 rewritten=out.get("rewritten", question),
                 code=out.get("code") or "",
@@ -361,8 +379,8 @@ def ask_one_with_retry(
                 raise
             attempt += 1
             if attempt > retry.max_retries:
-                _log_to_cache(
-                    cache_dir, "error_final",
+                _log_to_logs(
+                    logs_dir, "error_final",
                     q=question,
                     rewritten=question,
                     code="",

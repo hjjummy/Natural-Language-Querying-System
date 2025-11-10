@@ -20,7 +20,6 @@ from dataclasses import dataclass
 import time
 from contextlib import contextmanager
 
-
 # config / core
 from core.config import (
     MODEL_FOR_COL_SELECT,
@@ -80,13 +79,11 @@ def step_status(label: str, expanded: bool = False):
     try:
         yield box, prog, tick
     finally:
-    # '중'이 들어있으면 자연스럽게 제거해서 표시
         clean_label = label.replace(" 중", "")
         box.update(label=f"{clean_label} 완료", state="complete")
         prog.progress(1.0)
 
-
-# --- 추가 유틸: '타자 중...' 플레이스홀더 (응답 생성 중 시각 효과) ---
+# --- 추가 유틸: '타자 중...' 플레이스홀더 ---
 def typing_placeholder():
     holder = st.empty()
     holder.markdown(
@@ -100,7 +97,6 @@ def typing_placeholder():
         unsafe_allow_html=True
     )
     return holder  # holder.empty() 로 제거 가능
-
 
 # ------------------- 멀티 스레드 상태 -------------------
 @dataclass
@@ -212,13 +208,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-
 # === 사이드바 로고 ===
 LOGO_SIDEBAR = Path(__file__).resolve().parent / "assets" / "logo_sidebar.png"
 with st.sidebar:
     if LOGO_SIDEBAR.exists():
         st.image(str(LOGO_SIDEBAR), use_container_width=True)
-        # st.markdown("---")
     else:
         st.caption("⚠️ assets/logo_sidebar.png 를 찾을 수 없습니다.")
 
@@ -350,8 +344,6 @@ with col_left:
         else:
             st.caption("🔁 동일 파일 재업로드 감지 — 저장 생략")
 
-            
-
     # 2) 시트 목록 표시
     sheet_options: list[str] = []
     if cur.file_path:
@@ -413,7 +405,6 @@ with col_left:
         except Exception as e:
             st.error(f"세션 준비 실패: {e}")
 
-
     # 4) 미리보기
     if cur.df_raw is not None:
         st.caption("미리보기(상위 10행)")
@@ -425,7 +416,6 @@ with col_left:
 with col_right:
     st.markdown("### 💬 질의 실행")
     question = st.text_area("질문을 입력하세요", height=120, placeholder="예) 'AC25'의 K 평균은?")
-    #head_rows = st.number_input("사용한 데이터 미리보기 행 수", min_value=0, value=0, step=1)
 
     run_disabled = (cur.df_raw is None) or (cur.paths is None) or (not question.strip())
     if st.button("실행", type="primary", use_container_width=True, disabled=run_disabled):
@@ -447,46 +437,29 @@ with col_right:
 
         with step_status("답변 생성 중", expanded=True) as (box, prog, tick):
             tick(0.15, "🧭 질문 리라이팅 / 연관성 판별...", 0.05)
-            # (LLM 내부에서 진행될 단계 - 실제 호출 전 표시용)
-
             tick(0.35, "🧩 컬럼 선택 / 파이프라인 계획...", 0.05)
 
-            # 실제 호출
+            # 실제 호출 (✅ cache_dir_override 제거)
             out = ask_one_with_retry(
-            df_raw=cur.df_raw,
-            question=question.strip(),
-            schema_path=schema_path,
-            md_path=md_path,
-            model_for_col_select=MODEL_FOR_COL_SELECT,
-            pandasai_llm_model=PANDASAI_LLM_MODEL,
-            history=cur.history,
-            use_rewritten_for_all=USE_REWRITTEN_FOR_ALL,
-            head_rows=None,
-            retry=retry_opts,
-            # ✅ 추가: 캐시 경로를 명시적으로 전달 → 항상 cache/YYYYMMDD__해시/query_log.jsonl에 기록됨
-            cache_dir_override=str(cur.paths.cache_dir),
-        )
-
+                df_raw=cur.df_raw,
+                question=question.strip(),
+                schema_path=schema_path,
+                md_path=md_path,
+                model_for_col_select=MODEL_FOR_COL_SELECT,
+                pandasai_llm_model=PANDASAI_LLM_MODEL,
+                history=cur.history,
+                use_rewritten_for_all=USE_REWRITTEN_FOR_ALL,
+                head_rows=None,
+                retry=retry_opts,
+            )
 
             tick(0.75, "🧮 Pandas 코드 실행 / 결과 정리...", 0.05)
-            # 이후 요약/렌더링은 기존 로직 그대로 실행됨
 
         # 타자 애니메이션 제거
         typing.empty()
 
         elapsed = time.perf_counter() - t0
         st.caption(f"⏱️ 처리 시간: {elapsed:.2f}s")
-
-        
-        # # --- 디버깅 블록 추가 ---
-        # with st.expander("🧩 LLM 원본 df_out / 코드 확인"):
-        #     st.text_area("LLM 생성 Pandas 코드", value=out.get("code") or "", height=200)
-        #     st.markdown("**사용된 컬럼:** " + str(out.get("used_columns", [])))
-
-        # with st.expander("📄 최종 마크다운 원문"):
-        #     st.code(out.get("markdown") or "", language="markdown")
-        # # --- 디버깅 블록 끝 ---
-
 
         # --- 요약 박스 ---
         is_related = bool(out.get("is_related"))
@@ -516,36 +489,6 @@ with col_right:
         """
         st.markdown(summary_html, unsafe_allow_html=True)
 
-        # # 에러 시 디버그 코드=======================
-        # with st.expander("디버그 · 경로 및 파일 상태"):
-        #     st.write({"schema_path": str(cur.paths.schema_path), "md_path": str(cur.paths.md_path)})
-        #     st.write({
-        #         "schema_exists": Path(cur.paths.schema_path).exists(),
-        #         "md_exists": Path(cur.paths.md_path).exists(),
-        #     })
-        #     st.write({"selected_cols": out.get("selected_cols")})
-
-        # ms_err = out.get("md_subset_error")
-        # if ms_err:
-        #     st.warning(f"md_subset 생성 중 오류: {ms_err}")
-
-        # # 전체 원문(reason/code)도 확인
-        # with st.expander("디버그 · reason/code"):
-        #     st.markdown(out.get("reason_answer", ""))
-        
-        # with st.expander("디버그 · 경로 및 파일 상태"):
-        #     mdp, shp = Path(cur.paths.md_path), Path(cur.paths.schema_path)
-        #     st.write({
-        #         "md_path": str(mdp),
-        #         "md_exists": mdp.exists(),
-        #         "md_size": (mdp.stat().st_size if mdp.exists() else -1),
-        #         "schema_path": str(shp),
-        #         "schema_exists": shp.exists(),
-        #         "schema_size": (shp.stat().st_size if shp.exists() else -1),
-        #     })
-
-        # ======================================    
-
         # 1) 표만 추출
         answer_md = _between_tags(out.get("reason_answer", ""), "answer")
         st.markdown("##### 🔹Answer")
@@ -563,8 +506,8 @@ with col_right:
         if out.get("code"):
             with st.expander("계산 과정"):
                 st.code(out["code"], language="python")
-        
-        # ✅ 히스토리 항목에도 코드 저장(ask_one_with_retry가 turns를 추가했다는 전제 하에 보강 저장)
+
+        # ✅ 히스토리 항목에도 코드 저장
         try:
             if out.get("code") and getattr(cur.history, "turns", None):
                 cur.history.turns[-1]["code"] = out["code"]
@@ -581,7 +524,6 @@ else:
         st.markdown(f"**{i}. Q:** {t['q']}")
         st.markdown(f"**A (표):**\n{t['a']}")
         st.caption(f"used_columns = {t.get('used', [])}")
-        # ✅ 히스토리에 저장된 판다스 코드 노출
         code_text = t.get("code")
         if code_text:
             with st.expander(f"계산 과정"):
